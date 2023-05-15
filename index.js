@@ -293,7 +293,7 @@ function seleccionarSuscripcion(valor) {
         client.unsubscribe("boyas/#", { qos: 0 }, (error) => {
             console.log("Desuscrito boyas")
         });
-        if(valor == "mar") {
+        if(valor == "marmediterraneo") {
             client.subscribe("boyas/marmediterraneo", { qos: 0 }, (error) => {
                 console.log("Suscrito marmediterraneo")
             });
