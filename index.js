@@ -10,14 +10,12 @@ var markersExist = false;
 var solicitado = false;
 
 var boyasPacifico = [];
-var boyasAtlanticoNorte = [];
-var boyasAtlanticoSur = [];
+var boyasMarMediterraneo = [];
 var boyasAntartico = [];
 var boyasIndico = [];
 
 var percentagePacifico = 0;
-var percentageAtlanticoNorte = 0;
-var percentageAtlanticoSur = 0;
+var percentageMarMediterraneo = 0;
 var percentageAntartico = 0;
 var percentageIndico = 0;
 
@@ -63,7 +61,7 @@ client.on('connect', () => {
 
 
 client.on('message', (topic, message) => {
-    if (topic == "boyas/#" || topic == "boyas/pacifico" || topic == "boyas/atlanticosur" || topic == "boyas/antartico" || topic == "boyas/atlanticonorte" || topic == "boyas/indico") {
+    if (topic == "boyas/#" || topic == "boyas/pacifico" || topic == "boyas/antartico" || topic == "boyas/marmediterraneo" || topic == "boyas/indico") {
         process_message(topic, message);
     }
     if (markersExist && topic == 'trazas') {
@@ -168,18 +166,13 @@ function addPoint(topic, data) {
             "temperatura": data.temperatura
         })
     }
-    if (topic == "boyas/atlanticosur") {
-        boyasAtlanticoSur.push({
-            "temperatura": data.temperatura
-        })
-    }
     if (topic == "boyas/antartico") {
         boyasAntartico.push({
             "temperatura": data.temperatura
         })
     }
-    if (topic == "boyas/atlanticonorte") {
-        boyasAtlanticoNorte.push({
+    if (topic == "boyas/marmediterraneo") {
+        boyasMarMediterraneo.push({
             "temperatura": data.temperatura
         })
     }
@@ -258,17 +251,11 @@ function seleccionarSuscripcion(valor) {
         client.unsubscribe("boyas/#", { qos: 0 }, (error) => {
             console.log("Desuscrito boyas")
         });
-        if(valor == "norte") {
-            client.subscribe("boyas/atlanticonorte", { qos: 0 }, (error) => {
-                console.log("Suscrito atlanticonorte")
+        if(valor == "mar") {
+            client.subscribe("boyas/marmediterraneo", { qos: 0 }, (error) => {
+                console.log("Suscrito marmediterraneo")
             });
-            topicoSuscripto.innerHTML = "Ver boyas: Atlántico Norte";
-        }
-        if(valor == "sur") {
-            client.subscribe("boyas/atlanticosur", { qos: 0 }, (error) => {
-                console.log("Suscrito atlanticosur")
-            });
-            topicoSuscripto.innerHTML = "Ver boyas: Atlántico Sur";
+            topicoSuscripto.innerHTML = "Ver boyas: Mar Mediterráneo";
         }
         if(valor == "pacifico") {
             client.subscribe("boyas/pacifico", { qos: 0 }, (error) => {
@@ -293,10 +280,9 @@ function seleccionarSuscripcion(valor) {
 
 
 function calculatePercentage() {
-    total = boyasAntartico.length + boyasAtlanticoNorte.length + boyasAtlanticoSur.length + boyasIndico.length + boyasPacifico.length;
+    total = boyasAntartico.length + boyasMarMediterraneo.length + boyasIndico.length + boyasPacifico.length;
     percentageAntartico = (boyasAntartico.length/total)*100;
-    percentageAtlanticoNorte = (boyasAtlanticoNorte.length/total)*100;
-    percentageAtlanticoSur = (boyasAtlanticoSur.length/total)*100;
+    percentageMarMediterraneo = (boyasMarMediterraneo.length/total)*100;
     percentageIndico = (boyasIndico.length/total)*100;
     percentagePacifico = (boyasPacifico.length/total)*100;
 }
@@ -336,8 +322,8 @@ function high() {
             name: 'Brands',
             colorByPoint: true,
             data: [{
-                name: 'Atlántico Norte',
-                y: percentageAtlanticoNorte,
+                name: 'Mar mediterráneo',
+                y: percentageMarMediterraneo,
                 sliced: true,
                 selected: true
             }, {
@@ -349,9 +335,6 @@ function high() {
             }, {
                 name: 'Océano Antártico',
                 y: percentageAntartico
-            }, {
-                name: 'Atlántico Sur',
-                y: percentageAtlanticoSur
             }]
         }]
     });
