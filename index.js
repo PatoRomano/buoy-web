@@ -5,10 +5,15 @@
 var polyline;
 var estadoBtnVer = '';
 var estadoBtnOcultar = 'hidden';
+var heat;
 
 var markersExist = false;
 var solicitado = false;
 
+var heatArrayPacifico = [];
+var heatArrayMarMediterraneo = [];
+var heatArrayAntartico = [];
+var heatArrayIndico = [];
 var boyasPacifico = [];
 var boyasMarMediterraneo = [];
 var boyasAntartico = [];
@@ -130,8 +135,45 @@ function process_message(topic, message) {
 
 
     addPoint(topic, data);
+    addHeatPoint(topic, data);
     //drawPolyline();
 }
+
+
+
+function calculateIntensity(temperature) {
+    let intensity = temperature*300;
+    return intensity;
+}
+
+
+
+function addHeatPoint(topic, data) {
+    let intensity = calculateIntensity(data.temperatura);
+
+    if (topic == "boyas/pacifico") {
+        heatArrayPacifico.push([data.latitud, data.longitud, intensity])
+    }
+    if (topic == "boyas/antartico") {
+        heatArrayAntartico.push([data.latitud, data.longitud, intensity])
+    }
+    if (topic == "boyas/marmediterraneo") {
+        heatArrayMarMediterraneo.push([data.latitud, data.longitud, intensity])
+    }
+    if (topic == "boyas/indico") {
+        heatArrayIndico.push([data.latitud, data.longitud, intensity])
+    }
+
+    //heatArray.push([data.latitud, data.longitud, intensity]);
+    // lat, lng, intensity
+
+    console.log(data.latitud);
+    heat = L.heatLayer([
+        [data.latitud, data.longitud, intensity], // lat, lng, intensity
+    ], { radius: 25 }).addTo(map);
+}
+
+
 
 function addPoint(topic, data) {
     markersExist = true;
