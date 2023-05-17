@@ -73,6 +73,9 @@ client.on('message', (topic, message) => {
     if (markersExist && topic == 'trazas') {
         drawPolyline(topic, message);
     }
+    if (topic == "boyas/pacifico/means" || topic == "boyas/antartico/means" || topic == "boyas/marmediterraneo/means" || topic == "boyas/indico/means") {
+        addHeatPoint(topic, message);
+    }
 })
 
 
@@ -136,7 +139,6 @@ function process_message(topic, message) {
 
 
     addPoint(topic, data);
-    addHeatPoint(topic, data);
     //drawPolyline();
 }
 
@@ -149,24 +151,12 @@ function calculateIntensity(temperature) {
 
 
 
-function addHeatPoint(topic, data) {
+function addHeatPoint(topic, message) {
+    console.log('Mensaje recibido bajo topico：', topic, '->', message.toString())
+    mensaje = message.toString();
+    let data = JSON.parse(message);
+    
     let intensity = calculateIntensity(data.temperatura);
-
-    if (topic == "boyas/pacifico") {
-        heatArrayPacifico.push([data.latitud, data.longitud, intensity])
-    }
-    if (topic == "boyas/antartico") {
-        heatArrayAntartico.push([data.latitud, data.longitud, intensity])
-    }
-    if (topic == "boyas/marmediterraneo") {
-        heatArrayMarMediterraneo.push([data.latitud, data.longitud, intensity])
-    }
-    if (topic == "boyas/indico") {
-        heatArrayIndico.push([data.latitud, data.longitud, intensity])
-    }
-
-    //heatArray.push([data.latitud, data.longitud, intensity]);
-    // lat, lng, intensity
 
     console.log(data.latitud);
     heat = L.heatLayer([
@@ -302,11 +292,35 @@ function seleccionarSuscripcion(valor) {
             client.subscribe("boyas/marmediterraneo", { qos: 0 }, (error) => {
                 console.log("Suscrito marmediterraneo")
             });
+            client.subscribe("boyas/marmediterraneo/means", { qos: 0 }, (error) => {
+                console.log("Suscrito marmediterraneo means")
+            });
+            client.unsubscribe("boyas/pacifico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito pacifico boyas")
+            });
+            client.unsubscribe("boyas/antartico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito antartico boyas")
+            });
+            client.unsubscribe("boyas/indico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito indico boyas")
+            });
             topicoSuscripto.innerHTML = "Ver boyas: Mar Mediterráneo";
         }
         if(valor == "pacifico") {
             client.subscribe("boyas/pacifico", { qos: 0 }, (error) => {
                 console.log("Suscrito pacifico")
+            });
+            client.subscribe("boyas/pacifico/means", { qos: 0 }, (error) => {
+                console.log("Suscrito pacifico means")
+            });
+            client.unsubscribe("boyas/marmediterraneo/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito marmediterraneo boyas")
+            });
+            client.unsubscribe("boyas/antartico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito antartico boyas")
+            });
+            client.unsubscribe("boyas/indico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito indico boyas")
             });
             topicoSuscripto.innerHTML = "Ver boyas: Océano Pacífico";
         }
@@ -314,11 +328,35 @@ function seleccionarSuscripcion(valor) {
             client.subscribe("boyas/antartico", { qos: 0 }, (error) => {
                 console.log("Suscrito antartico")
             });
+            client.subscribe("boyas/antartico/means", { qos: 0 }, (error) => {
+                console.log("Suscrito antartico means")
+            });
+            client.unsubscribe("boyas/marmediterraneo/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito marmediterraneo boyas")
+            });
+            client.unsubscribe("boyas/pacifico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito pacifico boyas")
+            });
+            client.unsubscribe("boyas/indico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito indico boyas")
+            });
             topicoSuscripto.innerHTML = "Ver boyas: Océano Antártico";
         }
         if(valor == "indico") {
             client.subscribe("boyas/indico", { qos: 0 }, (error) => {
                 console.log("Suscrito indico")
+            });
+            client.subscribe("boyas/indico/means", { qos: 0 }, (error) => {
+                console.log("Suscrito indico means")
+            });
+            client.unsubscribe("boyas/marmediterraneo/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito marmediterraneo boyas")
+            });
+            client.unsubscribe("boyas/pacifico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito pacifico boyas")
+            });
+            client.unsubscribe("boyas/antartico/means", { qos: 0 }, (error) => {
+                console.log("Desuscrito antartico boyas")
             });
             topicoSuscripto.innerHTML = "Ver boyas: Océano Índico";
         }
