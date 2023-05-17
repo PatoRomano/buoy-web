@@ -46,7 +46,8 @@ const options = {
 // alis Alipay applet connection
 //const connectUrl = 'ws://localhost:8083/mqtt'
 //let connectUrl = 'ws://144.22.213.172:8083/mqtt'
-let connectUrl = 'ws://164.152.40.143:8083/mqtt'
+//let connectUrl = 'ws://164.152.40.143:8083/mqtt'
+let connectUrl = 'ws://140.238.178.141:8083/mqtt'
 let client = mqtt.connect(connectUrl, options)
 
 
