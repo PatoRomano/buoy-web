@@ -185,7 +185,7 @@ function addPoint(topic, data) {
         + '<br>' + '<button id="btnOcultar" class="btn btn-danger btn-sm" onclick="hidePolyline() " ' + estadoBtnOcultar + '>Ocultar traza</button>'; */
 
         popUpData = 'Boya: ' + data.boya + ' <br>Temperatura: ' + data.temperatura + ' <br> Salinidad: ' +
-        data.salinidad + ' <br> Presion: ' + data.presion + '<br>' + ' <br> Latitud: ' + data.latitud + '<br>'
+        data.salinidad + ' <br> Presion: ' + data.presion + ' <br> Latitud: ' + data.latitud
         + ' <br> Longitud: ' + data.longitud + '<br>';
 
     /*     L.marker([data.latitud, data.longitud]).addTo(map)
