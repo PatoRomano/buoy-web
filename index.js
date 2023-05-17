@@ -179,10 +179,14 @@ function addHeatPoint(topic, data) {
 function addPoint(topic, data) {
     markersExist = true;
 
-    popUpData = 'Boya: ' + data.boya + ' <br>Temperatura: ' + data.temperatura + ' <br> Salinidad: ' +
+/*     popUpData = 'Boya: ' + data.boya + ' <br>Temperatura: ' + data.temperatura + ' <br> Salinidad: ' +
         data.salinidad + ' <br> Presion: ' + data.presion + '<br>' +
         '<button id="btnVer" class="btn btn-primary btn-sm" onclick="askBuoyRecords(' + data.boya + ') "' + estadoBtnVer + '>Ver traza</button>'
-        + '<br>' + '<button id="btnOcultar" class="btn btn-danger btn-sm" onclick="hidePolyline() " ' + estadoBtnOcultar + '>Ocultar traza</button>';
+        + '<br>' + '<button id="btnOcultar" class="btn btn-danger btn-sm" onclick="hidePolyline() " ' + estadoBtnOcultar + '>Ocultar traza</button>'; */
+
+        popUpData = 'Boya: ' + data.boya + ' <br>Temperatura: ' + data.temperatura + ' <br> Salinidad: ' +
+        data.salinidad + ' <br> Presion: ' + data.presion + '<br>' + ' <br> Latitud: ' + data.latitud + '<br>'
+        + ' <br> Longitud: ' + data.longitud + '<br>';
 
     /*     L.marker([data.latitud, data.longitud]).addTo(map)
         .bindPopup('Temperatura: 12 <br> Humedad: 98 <br> Salinidad: 25 <br> Presion: 100')
